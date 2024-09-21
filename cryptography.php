@@ -1,6 +1,6 @@
 <?php
 
-$usuario = 'etec'; 
+$usuario = 'admin'; 
 $senha = md5('123456'); 
 
 // Captura os dados do formulário
