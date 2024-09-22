@@ -62,7 +62,7 @@
     
         function encontrarIndiceMusica($musica, $listaMusicas) {
             foreach ($listaMusicas as $indice => $item) {
-                if ($item['musica'] == $musica) {
+                if ($item['musica'] === $musica) {
                     return $indice;
                 }
             }
@@ -75,7 +75,7 @@
         }
 
         // Verifica se o formulário foi enviado com a ação de adicionar
-        if (isset($_POST["acao"]) && $_POST["acao"] == "adicionar") {
+        if (isset($_POST["acao"]) && $_POST["acao"] === "adicionar") {
             $musicaAdd = $_POST["campo_lista_musica"];
             $cantorAdd = $_POST["campo_cantor"];
 
@@ -84,7 +84,7 @@
         }
 
         // Verifica se foi enviado um pedido de remoção de uma música
-        if (isset($_POST["acao"]) && $_POST["acao"] == "remover") {
+        if (isset($_POST["acao"]) && $_POST["acao"] === "remover") {
             $indiceRemover = $_POST["indice"];
             removerMusica($indiceRemover);
         }
