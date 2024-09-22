@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página PHP</title>
+    <title>Página PHP com Imagens Automáticas</title>
 </head>
 <body>
     <header>
@@ -25,7 +25,6 @@
         <?php
         session_start();
 
-        // Inicializa o array de músicas na sessão, se ainda não estiver definido
         if (!isset($_SESSION['musicas'])) {
             $_SESSION['musicas'] = [];
         }
@@ -40,14 +39,15 @@
         }
 
         function adicionarMusica($musica, $cantor) {
-            
             global $_SESSION;
 
-            // Verifica se a música já está na lista
+            $imagem = "./imgs/music.jpg"; 
+
             if (!musicaExiste($musica, $_SESSION['musicas'])) {
                 array_unshift($_SESSION['musicas'], [
                     'musica' => $musica,
-                    'cantor' => $cantor
+                    'cantor' => $cantor,
+                    'imagem' => $imagem
                 ]);
             } else {
                 echo "<p>A música já está na lista!</p>";
@@ -59,48 +59,31 @@
             array_splice($_SESSION['musicas'], $indice, 1);
         }
 
-    
-        function encontrarIndiceMusica($musica, $listaMusicas) {
-            foreach ($listaMusicas as $indice => $item) {
-                if ($item['musica'] === $musica) {
-                    return $indice;
-                }
-            }
-            return -1;
-        }
-
-        function contarMusicas() {
-            global $_SESSION;
-            return count($_SESSION['musicas']);
-        }
-
-        // Verifica se o formulário foi enviado com a ação de adicionar
         if (isset($_POST["acao"]) && $_POST["acao"] === "adicionar") {
             $musicaAdd = $_POST["campo_lista_musica"];
             $cantorAdd = $_POST["campo_cantor"];
 
-            
             adicionarMusica($musicaAdd, $cantorAdd);
         }
 
-        // Verifica se foi enviado um pedido de remoção de uma música
         if (isset($_POST["acao"]) && $_POST["acao"] === "remover") {
             $indiceRemover = $_POST["indice"];
             removerMusica($indiceRemover);
         }
 
-        // Função para exibir a lista de músicas e cantores com opção de remover
         function mostrarLista($musicas) {
             if (count($musicas) >= 1) {
-                echo "<h3>Sua lista de músicas (Total: " . contarMusicas() . "):</h3>";
+                echo "<h3>Sua lista de músicas:</h3>";
                 echo "<ul>";
                 foreach ($musicas as $indice => $item) {
-                    echo "<li>" . $item['musica'] . " - " . $item['cantor'] . "
+                    echo "<li>" . $item['musica'] . " - " . $item['cantor'] . "<br>";
+                    echo "<img src='" . $item['imagem'] . "' alt='Imagem de " . $item['musica'] . "' style='width:100px;height:auto;'><br>";
+                    echo "
                         <form action='' method='post' style='display:inline;'>
                             <input type='hidden' name='indice' value='" . $indice . "'>
                             <button type='submit' name='acao' value='remover'>Remover</button>
                         </form>
-                    </li>";
+                    </li><br>";
                 }
                 echo "</ul>";
             } else {
