@@ -16,6 +16,5 @@ if ($usuario === $user_digi && $senha === $pass_digi) {
     // Mensagem de erro caso o login falhe
     header("Location: index.php");
     exit();
-    echo "Usuário ou senha incorretos.";
 }
 ?>
